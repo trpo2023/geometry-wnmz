@@ -1,4 +1,5 @@
 #include "../include/utils.h"
+#include "../include/point.h"
 
 #include <fstream>
 #include <iostream>
@@ -9,38 +10,6 @@
 using namespace std;
 
 enum ArgType { POINT, NUMBER };
-
-struct Point {
-    int x;
-    int y;
-
-    static Point from_string(string& str)
-    {
-        Point point = {0, 0};
-        bool found_x = false;
-        string _tmp_value = "";
-        for (size_t i = 0; i < str.length(); i++) {
-            if ((str[i] == ' ' && str[i + 1] != ' ') || i == str.length() - 1) {
-                if (i == str.length() - 1) {
-                    _tmp_value += str[i];
-                }
-                if (!found_x) {
-                    point.x = stoi(_tmp_value);
-                    found_x = true;
-                } else {
-                    point.y = stoi(_tmp_value);
-                }
-                _tmp_value.clear();
-            }
-
-            if (str[i] == ' ') {
-                continue;
-            }
-            _tmp_value += str[i];
-        }
-        return point;
-    }
-};
 
 const vector<string> figure_names = {"circle", "triangle"};
 const map<const string, const vector<ArgType>> figure_args = {{

@@ -7,7 +7,9 @@ OBJ_DIR = obj
 INC_DIR = include
 
 TARGET = main
-OBJECTS = $(OBJ_DIR)/main.o $(OBJ_DIR)/utils.o
+OBJECTS = $(OBJ_DIR)/main.o \
+	$(OBJ_DIR)/utils.o \
+	$(OBJ_DIR)/point.o
 
 all: install clean $(TARGET)
 
