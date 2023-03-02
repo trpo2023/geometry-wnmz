@@ -1,21 +1,19 @@
-#include "../include/utils.h"
-#include "../include/point.h"
+#include "../include/circle.h"
+#include "../include/figure.h"
+#include "../include/triangle.h"
 
+#include "math.h"
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <iostream>
-#include <map>
+#include <stdio.h>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-enum ArgType { POINT, NUMBER };
-
 const vector<string> figure_names = {"circle", "triangle"};
-const map<const string, const vector<ArgType>> figure_args = {{
-        {"circle", {POINT, NUMBER}},
-        {"triangle", {POINT, POINT, POINT, POINT}},
-}};
 
 int find_figure(std::string str)
 {
@@ -29,15 +27,13 @@ int find_figure(std::string str)
     return figure_ind;
 }
 
+vector<Figure*> figures = {};
+
 int main(int argc, char* argv[])
 {
-    if (argc != 2) {
-        cout << "ERROR: First argument should be filename." << endl;
-        return 1;
-    }
-
     string file_name = argv[1];
     ifstream file;
+    int line_number = 1;
     file.open(file_name);
     if (file.is_open()) {
         string line;
@@ -50,75 +46,42 @@ int main(int argc, char* argv[])
                         line, 0, "expected 'circle', 'triangle', or 'polygon'");
                 return 1;
             }
-            const string figure_name = figure_names[figure_ind];
-            const vector<ArgType> args = figure_args.at(figure_name);
-            vector<Point> points = {};
-            vector<double> number_args = {};
+            string figure_name = figure_names[figure_ind];
 
-            size_t start = line.find("(");
-            size_t end = line.find_last_of(")");
-
-            while (line[start] == '(' && line[end] == ')') {
-                start++;
-                end--;
-            };
-            // left bracket check
-            if (line[start] != '(' && line[end] == ')') {
-                print_error(line, start + 2, "'(' expected.");
-                return 1;
-            }
-            // right bracket check
-            if (line[start] == '(' && line[end] != ')') {
-                print_error(line, end + 2, "')' expected.");
-                return 1;
-            }
-
-            string tmp_arg = "";
-            int arg_num = 0;
-            double radius = 0;
-            for (size_t i = start; i <= end + 1; i++) {
-                if (line[i] == ',' || i == end + 1) {
-                    trim_string(tmp_arg);
-                    if (args[arg_num] == POINT) {
-                        points.push_back(Point::from_string(tmp_arg));
-                    }
-
-                    if (args[arg_num] == NUMBER) {
-                        number_args.push_back(stod(tmp_arg));
-                        if (figure_name == "circle") {
-                            radius = stod(tmp_arg);
-                        }
-                    }
-
-                    arg_num++;
-                    tmp_arg.clear();
-                    continue;
-                }
-
-                tmp_arg += line[i];
-            }
-
-            if (points.size() + number_args.size()
-                != figure_args.at(figure_name).size()) {
+            char next_char = line[figure_name.length()];
+            if (next_char != '(' && next_char != ' ') {
                 print_error(
                         line,
-                        end,
-                        "expected "
-                                + to_string(figure_args.at(figure_name).size())
-                                + ", but got " + to_string(points.size())
-                                + " arguments!");
+                        figure_name.length(),
+                        "expected '(' or ' ' after figure name");
                 return 1;
             }
 
-            cout << figure_name << " ( ";
-            for (Point p : points) {
-                cout << p.x << " " << p.y << " ";
+            if (figure_name == "triangle") {
+                figures.push_back(new Triangle(line));
             }
+
             if (figure_name == "circle") {
-                cout << radius << " ";
+                figures.push_back(new Circle(line));
             }
-            cout << ")" << endl;
+            line_number++;
         }
-        return 0;
+
+        for (size_t i = 0; i < figures.size(); i++) {
+            Figure* figure = figures[i];
+
+            cout << i + 1 << ". " << figure->original_string << endl;
+            cout << '\t' << "perimeter = " << figure->get_perimeter() << endl;
+            cout << '\t' << "area = " << figure->get_area() << endl;
+            cout << '\t' << "intersects: " << endl;
+            for (size_t j = 0; j < figures.size(); j++) {
+                if (i != j && figures[j]->intersects(*figure)) {
+                    cout << "\t\t" << j + 1 << ". " << figures[j]->get_name()
+                         << endl;
+                }
+            }
+        }
     }
-};
+
+    return 0;
+}

@@ -9,7 +9,10 @@ INC_DIR = include
 TARGET = main
 OBJECTS = $(OBJ_DIR)/main.o \
 	$(OBJ_DIR)/utils.o \
-	$(OBJ_DIR)/point.o
+	$(OBJ_DIR)/point.o \
+	$(OBJ_DIR)/figure.o \
+	$(OBJ_DIR)/circle.o \
+	$(OBJ_DIR)/triangle.o
 
 all: install clean $(TARGET)
 
