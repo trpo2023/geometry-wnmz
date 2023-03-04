@@ -1,6 +1,5 @@
 *.o
+*.d
 *.out
 *.swp
 .vscode
-main
-obj

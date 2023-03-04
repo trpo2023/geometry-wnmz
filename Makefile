@@ -2,34 +2,40 @@ CC = g++
 CFLAGS = -Wall -Werror
 DEPS = -MMD
 
-SRC_DIR = src
-OBJ_DIR = obj
-INC_DIR = include
+OUT_DIR = bin
 
 TARGET = main
-OBJECTS = $(OBJ_DIR)/main.o \
-	$(OBJ_DIR)/utils.o \
-	$(OBJ_DIR)/point.o \
-	$(OBJ_DIR)/figure.o \
-	$(OBJ_DIR)/circle.o \
-	$(OBJ_DIR)/triangle.o \
-	$(OBJ_DIR)/lib.o
+LIB_TARGET = libgeometry
+LIB_OUT_NAME = $(LIB_TARGET).a
 
-all: install clean $(TARGET)
+SRC_DIR = src
+OBJ_DIR = obj
+LIB_OBJ_DIR = $(OBJ_DIR)/$(LIB_TARGET)
+LIB_SRC_DIR = $(SRC_DIR)/$(LIB_TARGET)
+LIB_INC_DIR = $(LIB_SRC_DIR)/headers
 
-install:
-	mkdir -p $(OBJ_DIR)
+LIB_OBJECTS = $(LIB_OBJ_DIR)/utils.o \
+	$(LIB_OBJ_DIR)/point.o \
+	$(LIB_OBJ_DIR)/figure.o \
+	$(LIB_OBJ_DIR)/circle.o \
+	$(LIB_OBJ_DIR)/triangle.o \
+	$(LIB_OBJ_DIR)/parser.o
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(DEPS) -o $@ $^
+all: clean $(OUT_DIR)/$(LIB_OUT_NAME) $(OUT_DIR)/$(TARGET)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(DEPS) -c $< -o $@
+$(OUT_DIR)/$(TARGET): $(SRC_DIR)/geometry/main.cpp $(OUT_DIR)/$(LIB_OUT_NAME)
+	$(CC) $(CFLAGS) -I$(LIB_INC_DIR) -I$(LIB_SRC_DIR) -L$(OUT_DIR) -lgeometry -o $@ $^
 
-run: $(TARGET)
-	./$(TARGET) geometry.txt
+$(OUT_DIR)/$(LIB_OUT_NAME): $(LIB_OBJECTS)
+	ar rcs $@ $^
+
+$(LIB_OBJ_DIR)/%.o: $(LIB_SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) $(DEPS) -I$(LIB_INC_DIR) -c $< -o $@
+
+run: $(OUT_DIR)/$(TARGET)
+	./$(OUT_DIR)/$(TARGET) geometry.txt
 
 clean:
-	rm -f $(OBJ_DIR)/*; clear
-
-.PHONY: all clean install
+	rm -rf $(OBJ_DIR)/geometry/*.{o,d}
+	rm -rf $(LIB_OBJ_DIR)/*.{o,d}
+.PHONY: all run clean 

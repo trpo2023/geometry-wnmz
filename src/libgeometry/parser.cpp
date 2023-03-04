@@ -1,7 +1,7 @@
-#include "../include/lib.h"
-#include "../include/figure.h"
-#include "../include/circle.h"
-#include "../include/triangle.h"
+#include "./headers/parser.h"
+#include "./headers/figure.h"
+#include "./headers/circle.h"
+#include "./headers/triangle.h"
 
 const vector<string> figure_names = {"circle", "triangle"};
 int find_figure(std::string str)

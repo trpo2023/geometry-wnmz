@@ -1,6 +1,6 @@
-#include "../include/triangle.h"
-#include "../include/circle.h"
-#include "../include/figure.h"
+#include "./headers/triangle.h"
+#include "./headers/circle.h"
+#include "./headers/figure.h"
 
 Triangle::Triangle(string& wkt)
 {

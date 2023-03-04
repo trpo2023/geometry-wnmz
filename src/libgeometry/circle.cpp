@@ -1,6 +1,6 @@
-#include "../include/circle.h"
-#include "../include/figure.h"
-#include "../include/triangle.h"
+#include "./headers/circle.h"
+#include "./headers/figure.h"
+#include "./headers/triangle.h"
 
 string Circle::get_name() const
 {

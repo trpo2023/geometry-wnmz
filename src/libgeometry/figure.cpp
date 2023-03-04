@@ -1,5 +1,5 @@
-#include "../include/figure.h"
-#include "../include/circle.h"
+#include "./headers/figure.h"
+#include "./headers/circle.h"
 
 #include <climits>
 

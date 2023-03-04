@@ -1,4 +1,4 @@
-#include "../include/figure.h"
+#include "figure.h"
 #include <fstream>
 #include <iostream>
 

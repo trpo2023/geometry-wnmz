@@ -1,4 +1,4 @@
-#include "../include/point.h"
+#include "./headers/point.h"
 
 Point Point::from_string(string str)
 {
