@@ -12,7 +12,8 @@ OBJECTS = $(OBJ_DIR)/main.o \
 	$(OBJ_DIR)/point.o \
 	$(OBJ_DIR)/figure.o \
 	$(OBJ_DIR)/circle.o \
-	$(OBJ_DIR)/triangle.o
+	$(OBJ_DIR)/triangle.o \
+	$(OBJ_DIR)/lib.o
 
 all: install clean $(TARGET)
 
