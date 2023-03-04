@@ -1,6 +1,6 @@
 #include "./headers/parser.h"
-#include "./headers/figure.h"
 #include "./headers/circle.h"
+#include "./headers/figure.h"
 #include "./headers/triangle.h"
 
 const vector<string> figure_names = {"circle", "triangle"};
@@ -54,6 +54,6 @@ vector<Figure*> read_from_file(string& file_name)
             line_number++;
         }
     }
-    
+
     return figures;
 }

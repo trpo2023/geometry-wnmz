@@ -53,7 +53,7 @@ bool Circle::intersects_with_circle(const Circle& other) const
 
 bool Circle::intersects_with_triangle(const Triangle& other) const
 {
-        for (size_t i = 0; i < other.points.size(); i++) {
+    for (size_t i = 0; i < other.points.size(); i++) {
         const double distance
                 = Point::get_distance(other.points[i], this->center);
 

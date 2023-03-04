@@ -13,7 +13,7 @@ public:
     vector<int> type_args;
     vector<string> str_args;
     vector<Point> points;
-    
+
     bool is_polygon = false;
 
     int radius = 0;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "utils.h"
 #include "math.h"
+#include "utils.h"
 
 struct Point {
     int x;

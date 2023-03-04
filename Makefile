@@ -21,7 +21,7 @@ LIB_OBJECTS = $(LIB_OBJ_DIR)/utils.o \
 	$(LIB_OBJ_DIR)/triangle.o \
 	$(LIB_OBJ_DIR)/parser.o
 
-all: clean $(OUT_DIR)/$(LIB_OUT_NAME) $(OUT_DIR)/$(TARGET)
+all: format clean $(OUT_DIR)/$(LIB_OUT_NAME) $(OUT_DIR)/$(TARGET)
 
 $(OUT_DIR)/$(TARGET): $(SRC_DIR)/geometry/main.cpp $(OUT_DIR)/$(LIB_OUT_NAME)
 	$(CC) $(CFLAGS) -I$(LIB_INC_DIR) -I$(LIB_SRC_DIR) -L$(OUT_DIR) -lgeometry -o $@ $^
@@ -38,4 +38,8 @@ run: $(OUT_DIR)/$(TARGET)
 clean:
 	rm -rf $(OBJ_DIR)/geometry/*.{o,d}
 	rm -rf $(LIB_OBJ_DIR)/*.{o,d}
-.PHONY: all run clean 
+
+format: 
+	git ls-files *.{cpp,h} | xargs clang-format -i --verbose
+
+.PHONY: all run clean format 
