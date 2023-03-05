@@ -40,6 +40,6 @@ clean:
 	rm -rf $(LIB_OBJ_DIR)/*.{o,d}
 
 format:
-    git ls-files *.{cpp,h} | xargs clang-format -i
+	git ls-files *.{cpp,h} | xargs clang-format -i
 
 .PHONY: all run clean format 
