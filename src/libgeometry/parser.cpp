@@ -16,7 +16,7 @@ int find_figure(std::string str)
     return figure_ind;
 }
 
-vector<Figure*> read_from_file(string& file_name)
+vector<Figure*> read_from_file(const string& file_name)
 {
     vector<Figure*> figures;
     ifstream file;

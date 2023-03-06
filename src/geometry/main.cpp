@@ -4,7 +4,12 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    string file_name = argv[1];
+    if (argc != 2 || string(argv[1]).empty()) {
+        cout << "First argument should be filename!" << endl;
+        return 1;
+    }
+
+    const string file_name = argv[1];
     vector<Figure*> figures = read_from_file(file_name);
 
     for (size_t i = 0; i < figures.size(); i++) {
